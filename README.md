@@ -1,4 +1,4 @@
-# depfinder 🔍
+# depscan 🔍
 
 A Python dependency analyzer inspired by Black's implementation that automatically discovers and extracts third-party imports from your Python projects. It scans your codebase to identify external dependencies while filtering out project-internal imports.
 
@@ -16,12 +16,12 @@ A Python dependency analyzer inspired by Black's implementation that automatical
 ## Installation 📦
 
 ```bash
-pip install depfinder
+pip install depscan
 ```
 
 ## Usage 🚀
 
-You can use depfinder either as a module or directly as a command (like Black):
+You can use depscan either as a module or directly as a command (like Black):
 
 ```bash
 # As a command (recommended)
@@ -35,6 +35,7 @@ python -m definder .
 ```
 
 Options:
+
 ```bash
 definder src/ --no-save     # Don't generate requirements file
 definder src/ --workers 4   # Specify number of parallel workers
@@ -51,6 +52,7 @@ definder src/ --workers 4   # Specify number of parallel workers
 ## Output 📝
 
 The tool will:
+
 1. Show all scanned files
 2. List discovered third-party dependencies
 3. Generate a `requirements.txt` file (or `requirements-definder.txt` if the former exists)
