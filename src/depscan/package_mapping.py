@@ -26,7 +26,6 @@ PACKAGE_NAME_MAPPING = {
     
     # 深度学习
     'tf': 'tensorflow',
-    'torch': 'pytorch',
     'mx': 'mxnet',
     'paddle': 'paddlepaddle',
     

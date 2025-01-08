@@ -17,7 +17,7 @@ class DependencyFinder:
         
     def find_imports_in_file(self, file_path: Path) -> Set[str]:
         """分析单个文件中的导入"""
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open(file_path, 'r', encoding='utf-8-sig') as f:
             content = f.read()
             
         imports = set()
@@ -33,8 +33,8 @@ class DependencyFinder:
                 elif isinstance(node, ast.ImportFrom):
                     if node.module:
                         imports.add(node.module.split('.')[0])
-        except:
-            print(f"Failed to parse {file_path}")
+        except Exception as e:
+            print(f"Error parsing {file_path}: {str(e)}")
             
         return imports
 
@@ -64,8 +64,7 @@ class DependencyFinder:
             all_imports = set()
             for imports in results:
                 all_imports.update(imports)
-                
-            # 过滤出第三方依赖，排除标准库和本地模块
+            # 排除标准库和本地模块
             stdlib_modules = self.get_stdlib_modules()
             third_party = {
                 get_package_name(imp) for imp in all_imports 
@@ -86,25 +85,24 @@ class DependencyFinder:
                 for py_file in path.rglob('*.py'):
                     python_files.add(py_file)
                     self.local_modules.add(py_file.stem)
+                    # 如果是__init__.py文件，将其所在文件夹名也加入local_modules
+                    if py_file.name == '__init__.py':
+                        self.local_modules.add(py_file.parent.name)
         return python_files
 
     @staticmethod
     def get_stdlib_modules() -> Set[str]:
         """获取 Python 标准库模块列表"""
         import sys
-        import distutils.sysconfig as sysconfig
-        
-        stdlib_path = sysconfig.get_python_lib(standard_lib=True)
-        stdlib_modules = set()
-        
-        # 添加所有内置模块
-        stdlib_modules.update(sys.builtin_module_names)
-        
-        # 添加标准库路径下的所有模块
-        for path in Path(stdlib_path).rglob('*.py'):
-            if path.stem != '__init__':
-                stdlib_modules.add(path.stem)
-                
+        stdlib_modules = set(sys.builtin_module_names)
+        stdlib_modules.update({
+            'functools', 'json', 'pathlib', 'typing', 'collections',
+            'urllib', 'tempfile', 'copy', 'warnings', 'contextlib',
+            'io', 'os', 're', 'shutil', 'traceback', 'types',
+            'uuid', 'zipfile', 'gzip', 'tarfile', 'fnmatch',
+            'glob', 'pickle', 'hashlib', 'importlib', 'inspect',
+            'distutils', 'html'
+        })
         return stdlib_modules
 
     def save_requirements(self, dependencies: Set[str]) -> str:
