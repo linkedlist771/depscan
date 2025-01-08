@@ -17,8 +17,20 @@ class DependencyFinder:
         
     def find_imports_in_file(self, file_path: Path) -> Set[str]:
         """分析单个文件中的导入"""
-        with open(file_path, 'r', encoding='utf-8-sig') as f:
-            content = f.read()
+        encodings = ['utf-8-sig', 'utf-8', 'latin1', 'cp1252']
+        content = None
+        
+        for encoding in encodings:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    content = f.read()
+                break
+            except UnicodeDecodeError:
+                continue
+                
+        if content is None:
+            print(f"Warning: Could not decode file {file_path} with any supported encoding")
+            return set()
             
         imports = set()
         try:
