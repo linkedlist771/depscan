@@ -1,6 +1,6 @@
 [project]
 name = "depscan"
-version = "0.1.3"
+version = "0.1.4"
 description = "A fast Python dependency analyzer that automatically discovers and extracts third-party imports"
 authors = [
     {name = "linkedlist771", email = "213193509seu@gmail.com"},
