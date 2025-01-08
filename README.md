@@ -25,20 +25,20 @@ You can use depscan either as a module or directly as a command (like Black):
 
 ```bash
 # As a command (recommended)
-definder src/
-definder .                    # Current directory
-definder src/ tests/         # Multiple paths
+depscan src/
+depscan .                    # Current directory
+depscan src/ tests/         # Multiple paths
 
 # As a module
-python -m definder src/
-python -m definder .
+python -m depscan src/
+python -m depscan .
 ```
 
 Options:
 
 ```bash
-definder src/ --no-save     # Don't generate requirements file
-definder src/ --workers 4   # Specify number of parallel workers
+depscan src/ --no-save     # Don't generate requirements file
+depscan src/ --workers 4   # Specify number of parallel workers
 ```
 
 ## How it Works 🛠️
@@ -55,7 +55,7 @@ The tool will:
 
 1. Show all scanned files
 2. List discovered third-party dependencies
-3. Generate a `requirements.txt` file (or `requirements-definder.txt` if the former exists)
+3. Generate a `requirements.txt` file (or `requirements-depscan.txt` if the former exists)
 
 ## Known Limitations 🚧
 
